@@ -1,0 +1,19 @@
+<div id="task-input" class="mt-4" flex justify-center>
+  <div class="m-4" flex>
+    <input
+      class="rounded-l-lg p-4 border-t mr-0 border-b border-l text-gray-800 border-gray-200"
+      x-model="taskTitle"
+      placeholder="Task"
+      title
+    />
+    <button
+      x-on:click="
+        if(taskTitle) {addTask()}
+        else{alert('Tast title can not be empty')}
+      "
+      class="px-8 rounded-r-lg bg-purple-800 text-gray-100 font-bold p-4 uppercase"
+    >
+      Add Task
+    </button>
+  </div>
+</div>

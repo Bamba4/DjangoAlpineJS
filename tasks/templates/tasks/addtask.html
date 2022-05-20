@@ -1,0 +1,10 @@
+{% extends "tasks/index.html" %} {% block content %}
+<div id="task-list" class="max-w-md mx-auto grid grid-cols-1 gap-2 mt-6">
+  {% include "tasks/messages.html" %}
+  <!-- Task in progress -->
+  {% include "tasks/task_in_progress.html" %}
+
+  <!-- Completed Task -->
+  {% include "tasks/task_completed.html" %}
+</div>
+{% endblock %}
