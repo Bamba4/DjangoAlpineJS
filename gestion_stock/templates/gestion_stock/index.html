@@ -1,0 +1,279 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Gestion de Stock</title>
+    <script src="{% static 'gestion_stock/index.js' %}"></script>
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+      defer
+    ></script>
+  </head>
+
+  <body x-data="getInitialStock()" x-init="loadInitialStocks()">
+    <h1
+      class="
+        bg-clip-text
+        text-transparent
+        bg-gradient-to-r
+        from-indigo-500
+        via-pink-600
+        to-purple-900
+      "
+      style="margin-left: 435px; font-size: 43px"
+    >
+      GESTION DE STOCK
+    </h1>
+    <ul
+      class="
+        hidden
+        text-sm
+        font-medium
+        text-center text-gray-500
+        rounded-lg
+        divide-x divide-gray-200
+        shadow
+        sm:flex
+        dark:divide-gray-700 dark:text-gray-400
+      "
+    >
+      <li class="w-full" x-on:click="if(stockinitial.stockInitial == 0)  {activeTab=1}">
+        <a
+          id="myTab"
+          :class="{ 'bg-blue-500': activeTab  === 1, 'text-white': activeTab  === 1}"
+          data-tabs-toggle="#myTabContent"
+          class="
+            inline-block
+            p-4
+            w-full
+            bg-gray-100
+            rounded-l-lg
+            focus:ring-4 focus:ring-blue-300
+            active
+            focus:outline-none
+            dark:bg-gray-700 dark:text-white
+          "
+          aria-current="page"
+          x-text="`Quantite de produits dans le mangasin ${stockinitial.stockInitial}`"
+        ></a>
+      </li>
+      <li class="w-full" x-on:click="activeTab=2">
+        <a
+          href="#"
+          :class="{ 'bg-blue-500': activeTab  === 2, 'text-white': activeTab  === 2}"
+          class="
+            inline-block
+            p-4
+            w-full
+            bg-white
+            focus:ring-4 focus:ring-blue-300 focus:outline-none
+            dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700
+          "
+          >Remplir pour chaque produit sa quantite
+        </a>
+      </li>
+      <li class="w-full" x-on:click="activeTab=3">
+        <a
+          href="#"
+          class="
+            inline-block
+            p-4
+            w-full
+            bg-white
+            hover:text-gray-700 hover:bg-gray-50
+            focus:ring-4 focus:ring-blue-300 focus:outline-none
+            dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700
+          "
+          >Settings</a
+        >
+      </li>
+      <li class="w-full" x-on:click="activeTab=4">
+        <a
+          href="#"
+          class="
+            inline-block
+            p-4
+            w-full
+            bg-white
+            rounded-r-lg
+            hover:text-gray-700 hover:bg-gray-50
+            focus:ring-4 focus:outline-none focus:ring-blue-300
+            dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700
+          "
+          >Invoice</a
+        >
+      </li>
+    </ul>
+
+    <div
+      class="flex justify-center"
+      x-show="activeTab == 1"
+      style="margin-right: 800px; margin-top: 100px"
+    >
+      {% include "gestion_stock/form.html" %}
+    </div>
+
+    <div class="flex" style="margin-left: 650px; margin-top: 100px" x-show="activeTab == 2">
+      <div>
+        <div class="mb-3 xl:w-96">
+          <select
+            x-model="designation"
+            class="
+              form-select
+              appearance-none
+              block
+              w-full
+              p-4
+              pl-10
+              text-sm text-gray-900
+              bg-gray-50
+              rounded-lg
+              border border-gray-300
+              focus:ring-blue-500 focus:border-blue-500
+              dark:bg-gray-700
+              dark:border-gray-600
+              dark:placeholder-gray-400
+              dark:text-white
+              dark:focus:ring-blue-500
+              dark:focus:border-blue-500
+            "
+            style="margin-top: 10px"
+            aria-label="Default select example"
+          >
+            <option selected>Open this select menu</option>
+            <option value="Exquimaux vanille">Exquimaux vanille</option>
+            <option value="Exquimaux Chocolat">Exquimaux Chocolat</option>
+            <option value="Cornet vanille">Cornet vanille</option>
+            <option value="Cornet chocolat">Cornet chocolat</option>
+            <option value="Cornet fraise">Cornet fraise</option>
+          </select>
+        </div>
+      </div>
+
+      <input
+        x-model="quantity"
+        type="number"
+        id="search"
+        style="margin: 10px"
+        class="
+          block
+          p-4
+          pl-10
+          text-sm text-gray-900
+          bg-gray-50
+          rounded-lg
+          border border-gray-300
+          focus:ring-blue-500 focus:border-blue-500
+          dark:bg-gray-700
+          dark:border-gray-600
+          dark:placeholder-gray-400
+          dark:text-white
+          dark:focus:ring-blue-500
+          dark:focus:border-blue-500
+        "
+        placeholder="Quantity"
+        required
+      />
+      <button
+        type="submit"
+        class="
+          text-white
+          right-2.5
+          bottom-2.5
+          bg-blue-700
+          hover:bg-blue-800
+          focus:ring-4 focus:outline-none focus:ring-blue-300
+          font-medium
+          rounded-lg
+          text-sm
+          px-4
+          py-2
+          mx-5
+          my-5
+          dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
+        "
+        x-on:click="if (quantity && designation) {addStock()} else{alert('Quantity or designation of stock is required')}"
+      >
+        Save
+      </button>
+
+      <button
+        type="submit"
+        class="
+          text-white
+          right-2.5
+          bottom-2.5
+          mx-5
+          my-5
+          bg-red-700
+          hover:bg-red-800
+          focus:ring-4 focus:outline-none focus:ring-red-300
+          font-medium
+          rounded-lg
+          text-sm
+          px-4
+          py-2
+          dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
+        "
+      >
+        Cancel
+      </button>
+    </div>
+
+    <div
+      style="grid-template-columns: 50% 50% 50%"
+      class="relative overflow-x-auto shadow-md sm:rounded-lg grid"
+      x-show="activeTab  === 2"
+    >
+      <div>
+        <h1>Stock</h1>
+        <table class="text-sm text-left text-gray-500 dark:text-gray-400" style="width: 50%">
+          <thead
+            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+          >
+            <tr>
+              <th scope="col" class="px-6 py-3">Designation</th>
+              <th scope="col" class="px-6 py-3">Quantity</th>
+              <th scope="col" class="px-6 py-3">
+                <span class="sr-only">Edit</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <template x-for="item in stocks">
+              <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <th
+                  scope="row"
+                  class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
+                  x-text="item.designation"
+                ></th>
+                <td class="px-6 py-4" x-text="item.quantity"></td>
+                <td class="px-6 py-4 text-right">
+                  <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                    >Edit</a
+                  >
+                  <a
+                    href="#"
+                    class="font-medium text-red-600 dark:text-blue-500 hover:underline"
+                    x-on:click="deleteStock(item.id)"
+                    >Delete</a
+                  >
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h1>My second Card</h1>
+      </div>
+      <div>My Third card</div>
+    </div>
+  </body>
+</html>

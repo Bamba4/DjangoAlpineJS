@@ -1,0 +1,99 @@
+<form>
+  <div class="relative d-flex justify-content-between" style="margin-left: 540px; margin-top: 10px">
+    <div
+      class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
+      style="z-index: 2; margin-top: 28px"
+    >
+      <svg
+        class="w-5 h-5 text-gray-500 dark:text-gray-400"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+        ></path>
+      </svg>
+    </div>
+
+    <div class="flex absolute">
+      <input
+        x-model="initialQuantity"
+        type="number"
+        id="search"
+        style="
+          border-top-right-radius: 0rem;
+          border-bottom-right-radius: 0rem;
+          border-bottom-left-radius: 0px;
+          border-top-left-radius: 0px;
+        "
+        class="
+          block
+          p-4
+          pl-10
+          text-sm text-gray-900
+          bg-gray-50
+          rounded-lg
+          border border-gray-300
+          focus:ring-blue-500 focus:border-blue-500
+          dark:bg-gray-700
+          dark:border-gray-600
+          dark:placeholder-gray-400
+          dark:text-white
+          dark:focus:ring-blue-500
+          dark:focus:border-blue-500
+        "
+        placeholder="Initial Stock"
+        required
+      />
+      <button
+        x-on:click="if(initialQuantity) {addInitialStock()} else {
+                  alert('Stock initial is required')
+              }"
+        type="submit"
+        style="
+          margin-left: 213px;
+          padding: 17px;
+          border-top-left-radius: 0rem;
+          border-bottom-left-radius: 0rem;
+        "
+        class="
+          text-white
+          absolute
+          right-2.5
+          bottom-2.5
+          bg-blue-700
+          hover:bg-blue-800
+          focus:ring-4 focus:outline-none focus:ring-blue-300
+          font-medium
+          rounded-lg
+          text-sm
+          px-4
+          py-2
+          dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
+        "
+      >
+        ADD
+      </button>
+    </div>
+  </div>
+</form>
+<div
+  class="shadow-md bg-blue-700 hover:bg-blue-800 uppercase"
+  style="
+    z-index: 1;
+    width: 282px;
+    padding-bottom: 20px;
+    padding-top: 11px;
+    color: white;
+    margin-top: 4px;
+    margin-left: -282px;
+    margin-top: 10px;
+  "
+>
+  <div style="text-align: center" x-text="`Stock initial ${stockinitial.stockInitial}`"></div>
+</div>
